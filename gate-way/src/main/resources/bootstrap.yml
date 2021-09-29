@@ -1,0 +1,23 @@
+server:
+  port: 9090
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_IP}:${NACOS_PORT}
+      config:
+        file-extension: yaml
+        server-addr: ${NACOS_IP}:${NACOS_PORT}
+        shared-configs: common.yaml
+    gateway:
+      routes:
+      - id: micro-service-a
+        uri: lb://micro-service-a
+        predicates:
+          - Path=/micro/a/**
+      - id: support-service-a
+        uri: lb://support-service-a
+        predicates:
+          - Path=/support/a/**,/gogo/**
